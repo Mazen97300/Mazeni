@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>الوصول إلى الموقع الجغرافي وفتح الرابط</title>
+</head>
+<body>
+
+<h2>التحقق من الموقع الجغرافي للوصول إلى الرابط</h2>
+<p>يرجى السماح بالوصول إلى موقعك الجغرافي للتأكد من أن الكود يعمل بشكل صحيح.</p>
+
+<script>
+    function requestLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    alert(`تم الوصول إلى الموقع بنجاح!\nخط العرض: ${latitude}\nخط الطول: ${longitude}`);
+                    
+                    // التوجيه إلى الرابط المطلوب
+                    window.location.href = "https://forms.gle/qZxVckimBm5jVbtJ8";
+                },
+                error => {
+                    handleLocationError(error);
+                },
+                {
+                    enableHighAccuracy: true, // يستخدم أعلى دقة ممكنة
+                    timeout: 10000, // مهلة الانتظار 10 ثوانٍ
+                    maximumAge: 0 // عدم استخدام بيانات قديمة
+                }
+            );
+        } else {
+            alert("المتصفح لا يدعم الموقع الجغرافي.");
+        }
+    }
+
+    function handleLocationError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert("تم رفض إذن الوصول إلى الموقع. يرجى السماح للوصول إلى الموقع في إعدادات المتصفح.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("الموقع غير متاح. تأكد من تفعيل GPS وحاول مجددًا.");
+                break;
+            case error.TIMEOUT:
+                alert("انتهت مهلة الحصول على الموقع. حاول مجددًا أو قَرِّب الهاتف من النافذة للحصول على إشارة أفضل.");
+                break;
+            default:
+                alert("حدث خطأ غير معروف عند محاولة الوصول إلى الموقع.");
+                break;
+        }
+    }
+
+    // طلب الموقع عند تحميل الصفحة
+    window.onload = requestLocation;
+</script>
+
+</body>
+</html>
